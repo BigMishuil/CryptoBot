@@ -1,9 +1,13 @@
+from http import client
+from multiprocessing.connection import Client
 import requests
 from datetime import datetime
 import telebot
 from auth_data import token
+from telebot import types
 
 bot = telebot.TeleBot(token)
+
 def get_date():
     req = requests.get("https://yobit.net/api/3/ticker/eth_usd")
     response = req.json()
@@ -36,55 +40,63 @@ def telegram_bot(token):
     bot = telebot.TeleBot(token)
     @bot.message_handler(commands=['start'])
     def start_message(message):
-        bot.send_message(message.chat.id, "Hello!")
-        bot.send_message(message.chat.id, 'Write "ethereum" in order to find out the current price of Ethereum')
-        bot.send_message(message.chat.id, 'Write "bitcoin" in order to find out the current price of Bitcoin')
-        bot.send_message(message.chat.id, 'Write "dogecoin" in order to find out the current price of Dogecoin')
-        bot.send_message(message.chat.id, 'Write "usdt" in order to find out the current price of USDT')
+        markup = types.InlineKeyboardMarkup(row_width=2)
+        item_bitcoin = types.InlineKeyboardButton('Ethereum', callback_data='item_1') 
+        item_ethereum = types.InlineKeyboardButton('Bitcoin', callback_data='item_2') 
+        item_dogecoin = types.InlineKeyboardButton('Dogecoin', callback_data='item_3') 
+        item_usdt = types.InlineKeyboardButton('USDT', callback_data='item_4')
+        markup.add(item_bitcoin, item_ethereum, item_dogecoin, item_usdt)
 
-    @bot.message_handler(content_types = ["text"])
-    def send_text(message):
-        if message.text.lower() == "ethereum":
-            try:
-                req = requests.get("https://yobit.net/api/3/ticker/eth_usd")
-                response = req.json()
-                sell_price = response['eth_usd']['sell']
-                bot.send_message(message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Ethereum price: {sell_price}')
-            except Exception as ex:
-                print(ex)
-                bot.send_message(message.chat.id, "Something was wrong...")
+        bot.send_message(message.chat.id, "Hello! Choose a cryptocurrency to find out its current price", reply_markup=markup)
+        
 
-        elif message.text.lower() == "bitcoin":
-            try:
-                req = requests.get("https://yobit.net/api/3/ticker/btc_usd")
-                response = req.json()
-                sell_price = response['btc_usd']['sell']
-                bot.send_message(message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Bitcoin price: {sell_price}')
-            except Exception as ex:
-                print(ex)
-                bot.send_message(message.chat.id, "Something was wrong...")
+    @bot.callback_query_handler(func=lambda call:True)
+    def send_text(call):
+        if call.message:
+            if call.data == 'item_1':
+                try:
+                    req = requests.get("https://yobit.net/api/3/ticker/eth_usd")
+                    response = req.json()
+                    sell_price = response['eth_usd']['sell']
+                    bot.send_message(call.message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Ethereum price: {sell_price}')
+                except Exception as ex:
+                    print(ex)
+                    bot.send_message(call.message.chat.id, "Something was wrong...")
 
-        elif message.text.lower() == "dogecoin":
-            try:
-                req = requests.get("https://yobit.net/api/3/ticker/doge_usd")
-                response = req.json()
-                sell_price = response['doge_usd']['sell']
-                bot.send_message(message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Dogecoin price: {sell_price}')
-            except Exception as ex:
-                print(ex)
-                bot.send_message(message.chat.id, "Something was wrong...")
+        if call.message:
+            if call.data == 'item_2':
+                try:
+                    req = requests.get("https://yobit.net/api/3/ticker/btc_usd")
+                    response = req.json()
+                    sell_price = response['btc_usd']['sell']
+                    bot.send_message(call.message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Bitcoin price: {sell_price}')
+                except Exception as ex:
+                    print(ex)
+                    bot.send_message(call.message.chat.id, "Something was wrong...")
 
-        elif message.text.lower() == "usdt":
-            try:
-                req = requests.get("https://yobit.net/api/3/ticker/usdt_usd")
-                response = req.json()
-                sell_price = response['usdt_usd']['sell']
-                bot.send_message(message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell USDT price: {sell_price}')
-            except Exception as ex:
-                print(ex)
-                bot.send_message(message.chat.id, "Something was wrong...")
+        if call.message:
+            if call.data == 'item_3':
+                try:
+                    req = requests.get("https://yobit.net/api/3/ticker/doge_usd")
+                    response = req.json()
+                    sell_price = response['doge_usd']['sell']
+                    bot.send_message(call.message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Dogecoin price: {sell_price}')
+                except Exception as ex:
+                    print(ex)
+                    bot.send_message(call.message.chat.id, "Something was wrong...")
+
+        if call.message:
+            if call.data == 'item_4':
+                try:
+                    req = requests.get("https://yobit.net/api/3/ticker/usdt_usd")
+                    response = req.json()
+                    sell_price = response['usdt_usd']['sell']
+                    bot.send_message(call.message.chat.id, f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell USDT price: {sell_price}')
+                except Exception as ex:
+                    print(ex)
+                    bot.send_message(call.message.chat.id, "Something was wrong...")
         else:
-            bot.send_message(message.chat.id, "I don't quite understand you")
+            bot.send_message(call.message.chat.id, "I don't quite understand you")
 
     bot.polling()
 if __name__ == '__main__':
