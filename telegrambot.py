@@ -96,7 +96,7 @@ def telegram_bot(token):
                     print(ex)
                     bot.send_message(call.message.chat.id, "Something was wrong...")
         else:
-            bot.send_message(call.message.chat.id, "I don't quite understand you")
+            pass
 
     bot.polling()
 if __name__ == '__main__':
