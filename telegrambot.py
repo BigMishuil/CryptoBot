@@ -47,7 +47,7 @@ def telegram_bot(token):
         item_usdt = types.InlineKeyboardButton('USDT', callback_data='item_4')
         markup.add(item_bitcoin, item_ethereum, item_dogecoin, item_usdt)
 
-        bot.send_message(message.chat.id, "Hello! Choose a cryptocurrency to find out its current price", reply_markup=markup)
+        bot.send_message(message.chat.id, "Hello! Choose a cryptocurrency to find out its current price:", reply_markup=markup)
         
 
     @bot.callback_query_handler(func=lambda call:True)
