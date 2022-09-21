@@ -6,7 +6,7 @@ from telebot import types
 
 bot = telebot.TeleBot(token)
 
-def get_date():
+def get_dateeth():
     req = requests.get("https://yobit.net/api/3/ticker/eth_usd")
     response = req.json()
     print(response)
