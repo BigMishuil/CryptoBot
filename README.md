@@ -12,6 +12,8 @@ $ pip install telebot
 $ pip install requests
 ```
 
+### 💬 [VK](https://vk.com/prettymeyt)
+### ✌️ [Instagram](https://www.instagram.com/dumb.meytt/)
 
 
 
