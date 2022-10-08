@@ -4,35 +4,9 @@ import telebot
 from auth_data import token
 from telebot import types
 
+
 bot = telebot.TeleBot(token)
 
-def get_data_eth():
-    req = requests.get("https://yobit.net/api/3/ticker/eth_usd")
-    response = req.json()
-    print(response)
-    sell_price = response['eth_usd']['sell']
-    print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Ethereum price: {sell_price}')
-
-def get_data_btc():
-    req = requests.get("https://yobit.net/api/3/ticker/btc_usd")
-    response = req.json()
-    print(response)
-    sell_price = response['btc_usd']['sell']
-    print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Bitcoin price: {sell_price}')
-
-def get_data_doge():
-    req = requests.get("https://yobit.net/api/3/ticker/doge_usd")
-    response = req.json()
-    print(response)
-    sell_price = response['doge_usd']['sell']
-    print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Dogecoin price: {sell_price}')   
-
-def get_data_usdt():
-    req = requests.get("https://yobit.net/api/3/ticker/usdt_usd")
-    response = req.json()
-    print(response)
-    sell_price = response['usdt_usd']['sell']
-    print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell USDT price: {sell_price}')   
 
 def telegram_bot(token):
     bot = telebot.TeleBot(token)
