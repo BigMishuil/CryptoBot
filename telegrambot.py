@@ -6,28 +6,28 @@ from telebot import types
 
 bot = telebot.TeleBot(token)
 
-def get_dateeth():
+def get_data_eth():
     req = requests.get("https://yobit.net/api/3/ticker/eth_usd")
     response = req.json()
     print(response)
     sell_price = response['eth_usd']['sell']
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Ethereum price: {sell_price}')
 
-def get_datebtc():
+def get_data_btc():
     req = requests.get("https://yobit.net/api/3/ticker/btc_usd")
     response = req.json()
     print(response)
     sell_price = response['btc_usd']['sell']
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Bitcoin price: {sell_price}')
 
-def get_datedoge():
+def get_data_doge():
     req = requests.get("https://yobit.net/api/3/ticker/doge_usd")
     response = req.json()
     print(response)
     sell_price = response['doge_usd']['sell']
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M")}\nSell Dogecoin price: {sell_price}')   
 
-def get_dateusdt():
+def get_data_usdt():
     req = requests.get("https://yobit.net/api/3/ticker/usdt_usd")
     response = req.json()
     print(response)
