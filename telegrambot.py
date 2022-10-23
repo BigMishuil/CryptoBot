@@ -71,9 +71,7 @@ def telegram_bot(token):
             pass
 
     bot.polling()
+    
+    
 if __name__ == '__main__':
-    #get_date()
-    #get_datebtc()
-    #get_datedoge()
-    #get_dateusdt()
     telegram_bot(token)
