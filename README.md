@@ -4,7 +4,7 @@
 [YoBit](https://yobit.net/api).
 
 ```
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 ```
 или
 ```
